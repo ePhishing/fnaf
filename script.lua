@@ -1,255 +1,435 @@
-local Lighting = game:GetService("Lighting")
-local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/GreenDeno/Venyx-UI-Library/main/source.lua"))()
-local menu = Library.new("FNAF: CO-OP")
-
-local main = menu:addPage("Main")
-local segment1 = main:addSection("Main Features")
-
-local basement = menu:addPage("Minigame")
-local segment2 = basement:addSection("Basement Hunt")
-
-local misc = menu:addPage("Misc")
-local segment4 = misc:addSection("Misc")
-
-local settings = menu:addPage("Settings")
-local segment3 = settings:addSection("Settings")
-
-_G.espActive = false
-_G.Foxy = false
-
-local function night()
-    local animatronics = game:GetService("Workspace").Animatronics
-    local number
-
-    if animatronics:FindFirstChild("Springtrap") then
-        number = 3
-    elseif animatronics:FindFirstChild("ToyBonnie") then
-        number = 2
-    elseif animatronics:FindFirstChild("Nightmare") then
-        number = 4
-    elseif animatronics:FindFirstChild("GoldenFreddy") then
-        number = 1
-    end
-
-    return number
-end
-
-local function setEsp(parent)
-    local RenderStepped = game:GetService("RunService").RenderStepped
-    local camera = game.Workspace.CurrentCamera
-    local plr = game:GetService("Players").LocalPlayer.Character.HumanoidRootPart
-    local text = Drawing.new("Text")
-    text.Center = true
-    text.Size = 17
-    text.Outline = false
-    text.Font = 3
-    text.Color = Color3.fromRGB(255, 0, 0)
-
-    local Disconnect
-    local Disconnect2
-
-    Disconnect2 = parent.Parent.ChildRemoved:Connect(function(childMain)
-        text.Visible = false
-        text:Remove()
-
-        if childMain == parent then
-            Disconnect:Disconnect()
-            Disconnect2:Disconnect()
-            Disconnect2 = nil
-            Disconnect = nil
+local a=loadstring(game:HttpGet('https://raw.githubusercontent.com/bloodball/-back-ups-for-libs/main/wall%20v3'))():CreateWindow("Forgotten Memories");
+local b=a:CreateFolder("Main");
+local c=a:CreateFolder("Misc");
+getgenv().AutoFixGenerators=false;
+getgenv().AutoFixVentilation=false;
+getgenv().AutoCloseCurtain=false;
+getgenv().AutoCloseDoor=false;
+getgenv().AutoPickupPhone=false;
+getgenv().InfiniteSprint=false;
+getgenv().InfiniteSprintSpeed=16;
+getgenv().KillPower=false;
+ 
+if(getgenv().Inst==nil)then getgenv().Inst=0;end;
+getgenv().Inst+=1;
+ 
+local cinst=getgenv().Inst;
+ 
+--Anti AFK
+if(getgenv().kuefg834rjiy983450==nil)then game:GetService("Players").LocalPlayer.Idled:connect(function()game:service("VirtualUser"):CaptureController();game:service("VirtualUser"):ClickButton2(Vector2.new());end);getgenv().kuefg834rjiy983450="nope not cracking this bitch today";end;
+ 
+-- Infinite Yield Loader
+spawn(function()loadstring(game:HttpGet('https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source'))();end);
+ 
+-- Main Script
+b:Toggle("Auto Fix Generators",function(a)
+    getgenv().AutoFixGenerators=a;
+end);
+b:Toggle("Auto Fix Ventilation",function(a)
+    getgenv().AutoFixVentilation=a;
+end);
+b:Toggle("Auto Close Curtain",function(a)
+    getgenv().AutoCloseCurtain=a;
+end);
+b:Toggle("Auto Close Door",function(a)
+    getgenv().AutoCloseDoor=a;
+end);
+ 
+c:Toggle("Auto End Phone",function(a)
+    getgenv().AutoPickupPhone=a;
+end);
+c:Toggle("Infinite Sprint",function(a)
+    getgenv().InfiniteSprint=a;
+    print(a);
+    if(getgenv().InfiniteSprintSpeed==nil)then 
+        getgenv().InfiniteSprintSpeed=16;
+    end;
+    local data=(getgenv().infsprintdata)or({});
+    getgenv().infsprintdata=data;
+    if(getgenv().InfiniteSprintStepped~=nil)then getgenv().InfiniteSprintStepped:Disconnect();end;
+    if(getgenv().InfiniteSprintUISBegan~=nil)then getgenv().InfiniteSprintUISBegan:Disconnect();end;
+    if(getgenv().InfiniteSprintUISEnded~=nil)then getgenv().InfiniteSprintUISEnded:Disconnect();end;
+    if(data.wsCA~=nil)then data.wsCA:Disconnect();end;
+    if(data.wsLoop~=nil)then data.wsLoop:Disconnect();end;
+    if(a==true)and(data~=nil)then 
+        local sprinting=false;
+        local char=game:GetService("Players").LocalPlayer.Character;
+        local hum=(game:GetService("Players").LocalPlayer.Character)and(game:GetService("Players").LocalPlayer.Character:FindFirstChildWhichIsA("Humanoid"));
+        local function wsChange()
+            if(sprinting==true)then 
+                hum.WalkSpeed=getgenv().InfiniteSprintSpeed;
+            elseif(sprinting==false)then 
+                hum.WalkSpeed=8;
+            end;
+        end;
+        data.wsCA=game:GetService("Players").LocalPlayer.CharacterAdded:Connect(function(nchar)
+            char,hum=nchar,nchar:WaitForChild("Humanoid");
+            if(data.wsCA~=nil)then data.wsCA:Disconnect();end;
+            wsChange();
+            data.wsLoop=hum:GetPropertyChangedSignal("WalkSpeed"):Connect(wsChange);
+        end);
+        getgenv().InfiniteSprintUISBegan=game:GetService("UserInputService").InputBegan:Connect(function(input)
+            if(game:GetService("UserInputService"):GetFocusedTextBox())then return;end;
+            if(input.KeyCode==Enum.KeyCode.LeftShift)or(input.KeyCode==Enum.KeyCode.RightShift)then 
+                sprinting=true;
+            end;
+        end);
+        getgenv().InfiniteSprintUISEnded=game:GetService("UserInputService").InputEnded:Connect(function(input)
+            if(game:GetService("UserInputService"):GetFocusedTextBox())then return;end;
+            if(input.KeyCode==Enum.KeyCode.LeftShift)or(input.KeyCode==Enum.KeyCode.RightShift)then 
+                sprinting=false;
+            end;
+        end);
+        wsChange();
+        data.wsLoop=hum:GetPropertyChangedSignal("WalkSpeed"):Connect(wsChange);
+    end;
+end);
+c:Box("Infinite Sprint Speed","number",function(a)
+    if(tonumber(a)~=nil)then 
+        getgenv().InfiniteSprintSpeed=tonumber(a);
+    end;
+    print(a);
+end);
+c:Toggle("Kill Power",function(a)
+    getgenv().KillPower=a;
+end);
+c:Button("Animatronic ESP",function()
+    -- Settings --
+    local settings={
+        fillcolor=Color3.fromRGB(0, 255, 255);
+        filltransparency=0.75;
+        outlinecolor=Color3.fromRGB(0, 255, 255);
+        outlinetransparency=0;
+    };
+ 
+    -- Script --
+    if(game:service("CoreGui"):FindFirstChild("Highlights"))then game:service("CoreGui"):FindFirstChild("Highlights"):Destroy();end;
+    local highlights=Instance.new("Folder",game:service("CoreGui"));highlights.Name="Highlights"
+    function addto(a)
+        if((a.Name=="Freddy")or(a.Name=="Bonnie")or(a.Name=="Chica")or(a.Name=="Foxy")or(a.Name=="GoldenFreddy")or(a.Name=="Marionette"))and(a:IsA("Model"))then 
+            local highlight=Instance.new("Highlight",highlights);
+            highlight.Adornee=a;
+            highlight.FillColor=settings.fillcolor;
+            highlight.FillTransparency=settings.filltransparency;
+            highlight.OutlineColor=settings.outlinecolor;
+            highlight.OutlineTransparency=settings.outlinetransparency;
+            highlight.Adornee.Changed:Connect(function()
+                if(not(highlight.Adornee))or(not(highlight.Adornee.Parent))then 
+                    highlight:Destroy();
+                end;
+            end);
+            return(highlight);
+        end;
+    end;
+ 
+    for _,a in pairs(game:GetService("Workspace"):GetDescendants())do 
+        addto(a);
+    end;
+ 
+    if(getgenv().AnimatronicESP~=nil)then getgenv().AnimatronicESP:Destroy();end;
+    getgenv().AnimatronicESP=game:GetService("Workspace").DescendantAdded:Connect(addto);
+end);
+c:Button("Player ESP",function()
+    _G.FriendColor=Color3.fromRGB(0,0,255)
+    _G.EnemyColor=Color3.fromRGB(255,0,0)
+    _G.UseTeamColor=true
+ 
+    --------------------------------------------------------------------
+    local Holder=Instance.new("Folder",game.CoreGui)
+    Holder.Name="ESP"
+ 
+    local Box=Instance.new("BoxHandleAdornment")
+    Box.Name="nilBox"
+    Box.Size=Vector3.new(1, 2, 1)
+    Box.Color3=Color3.new(100 / 255, 100 / 255, 100 / 255)
+    Box.Transparency=0.7
+    Box.ZIndex=0
+    Box.AlwaysOnTop=false
+    Box.Visible=false
+ 
+    local NameTag=Instance.new("BillboardGui")
+    NameTag.Name="nilNameTag"
+    NameTag.Enabled=false
+    NameTag.Size=UDim2.new(0, 200, 0, 50)
+    NameTag.AlwaysOnTop=true
+    NameTag.StudsOffset=Vector3.new(0, 1.8, 0)
+    local Tag=Instance.new("TextLabel", NameTag)
+    Tag.Name="Tag"
+    Tag.BackgroundTransparency=1
+    Tag.Position=UDim2.new(0, -50, 0, 0)
+    Tag.Size=UDim2.new(0, 300, 0, 20)
+    Tag.TextSize=15
+    Tag.TextColor3=Color3.new(100 / 255, 100 / 255, 100 / 255)
+    Tag.TextStrokeColor3=Color3.new(0 / 255, 0 / 255, 0 / 255)
+    Tag.TextStrokeTransparency=0.4
+    Tag.Text="nil"
+    Tag.Font=Enum.Font.SourceSansBold
+    Tag.TextScaled=false
+ 
+    local LoadCharacter=function(v)
+        repeat wait()until v.Character~=nil
+ 
+        v.Character:WaitForChild("Humanoid")
+        local vHolder=Holder:FindFirstChild(v.Name)
+        vHolder:ClearAllChildren()
+        local b=Box:Clone()
+        b.Name=v.Name .. "Box"
+        b.Adornee=v.Character
+        b.Parent=vHolder
+        local t=NameTag:Clone()
+        t.Name=v.Name .. "NameTag"
+        t.Enabled=true
+        t.Parent=vHolder
+        t.Adornee=v.Character:WaitForChild("Head",5)
+        if not t.Adornee then
+            return UnloadCharacter(v)
         end
+        t.Tag.Text=v.Name
+        b.Color3=Color3.new(v.TeamColor.r, v.TeamColor.g, v.TeamColor.b)
+        t.Tag.TextColor3=Color3.new(v.TeamColor.r, v.TeamColor.g, v.TeamColor.b)
+        local Update
+        local UpdateNameTag=function()
+            if not pcall(function()
+                v.Character.Humanoid.DisplayDistanceType=Enum.HumanoidDisplayDistanceType.None
+                local maxh=math.floor(v.Character.Humanoid.MaxHealth)
+                local h=math.floor(v.Character.Humanoid.Health)
+            end) then
+                Update:Disconnect()
+            end
+        end
+        UpdateNameTag()
+        Update=v.Character.Humanoid.Changed:Connect(UpdateNameTag)
+    end
+ 
+    local UnloadCharacter=function(v)
+        local vHolder=Holder:FindFirstChild(v.Name)
+        if vHolder and (vHolder:FindFirstChild(v.Name.."Box")~=nil or vHolder:FindFirstChild(v.Name.."NameTag")~=nil) then
+            vHolder:ClearAllChildren()
+        end
+    end
+ 
+    local LoadPlayer=function(v)
+        local vHolder=Instance.new("Folder",Holder)
+        vHolder.Name=v.Name
+        v.CharacterAdded:Connect(function()
+            pcall(LoadCharacter,v)
+        end)
+        v.CharacterRemoving:Connect(function()
+            pcall(UnloadCharacter,v)
+        end)
+        v.Changed:Connect(function(prop)
+            if prop=="TeamColor" then
+                UnloadCharacter(v)
+                wait()
+                LoadCharacter(v)
+            end
+        end)
+        LoadCharacter(v)
+    end
+ 
+    local UnloadPlayer=function(v)
+        UnloadCharacter(v)
+        local vHolder=Holder:FindFirstChild(v.Name)
+        if vHolder then
+            vHolder:Destroy()
+        end
+    end
+ 
+    for i,v in pairs(game:GetService("Players"):GetPlayers())do
+        spawn(function()pcall(LoadPlayer,v);end)
+    end
+ 
+    game:GetService("Players").PlayerAdded:Connect(function(v)
+        pcall(LoadPlayer,v)
     end)
-
-    Disconnect = RenderStepped:Connect(function()
-        if parent and _G.espActive and parent.Parent:FindFirstChild(parent.Name) then
-            local vector, inViewport = camera:WorldToViewportPoint(parent.Position)
-            local Vnew = vector
-            local plrToAnim = (parent.Position - plr.Position).magnitude
-
-            if inViewport then
-                text.Position = Vector2.new(Vnew.X, Vnew.Y)
-                text.Text = tostring(parent.Parent.Name):gsub("%Part", "") .. " [" .. math.ceil(plrToAnim) .. "]"
-                text.Visible = true
+ 
+    game:GetService("Players").PlayerRemoving:Connect(function(v)
+        pcall(UnloadPlayer,v)
+    end)
+ 
+    game:GetService("Players").LocalPlayer.NameDisplayDistance=0
+ 
+    if _G.Reantheajfdfjdgs then
+        return
+    end
+ 
+    _G.Reantheajfdfjdgs=":suifayhgvsdghfsfkajewfrhk321rk213kjrgkhj432rj34f67df"
+ 
+    function esp(target,color)
+        if(target.Character)then
+            if(target.Character:FindFirstChild("GetReal")==nil)then
+                local highlight=Instance.new("Highlight")
+                highlight.RobloxLocked=true
+                highlight.Name="GetReal"
+                highlight.Adornee=target.Character
+                highlight.DepthMode=Enum.HighlightDepthMode.AlwaysOnTop
+                highlight.FillColor=color
+                highlight.Parent=target.Character
             else
-                text.Visible = false
+                target.Character.GetReal.FillColor=color
             end
-        else
-            text.Visible = false
-            text:Remove()
-            Disconnect:Disconnect()
-            Disconnect2:Disconnect()
-        end
-    end)
-end
-
-local function night2(parent)
-    parent.ChildAdded:Connect(function(child)
-        if child:IsA("Part") then
-            setEsp(child)
-        end
-    end)
-end
-
-local function dofullbright()
-    Lighting.Ambient = Color3.new(1, 1, 1)
-    Lighting.ColorShift_Bottom = Color3.new(1, 1, 1)
-    Lighting.ColorShift_Top = Color3.new(1, 1, 1)
-end
-
--- animatronic esp
-segment1:addToggle("Animatronic ESP", false, function(bool)
-    local animatronics = game:GetService("Workspace").Animatronics
-
-    if bool then
-        _G.espActive = true
-
-        if night() == 1 then
-            for _, v in pairs(animatronics:GetDescendants()) do
-                if string.find(v.Name, "Part") and v:IsA("Part") and not v:FindFirstChild("FUCK") and v.Parent.Parent == animatronics then
-                    setEsp(v)
-                end
-            end
-        elseif night() == 2 then
-            for _, v in pairs(animatronics:GetDescendants()) do
-                if string.find(v.Name, "Part") and v:IsA("Part") and v.Parent.Parent == animatronics then
-                    night2(v)
-                end
-            end
-        elseif night() == 3 then
-            for _, v in pairs(animatronics:GetDescendants()) do
-                if string.find(v.Name, "SpringtrapPart") and v:IsA("Part") and v.Parent.Parent.Name == "Springtrap" and v.Parent.Parent.Parent == animatronics then
-                    setEsp(v)
-                end
-            end
-        elseif night() == 4 then
-            for _, v in pairs(animatronics:GetDescendants()) do
-                if string.find(v.Name, "Part") and v:IsA("Part") and v.Parent.Parent.Parent == animatronics and not string.find(v.Parent.Name, "Closet") then
-                    setEsp(v)
-                end
-            end
-        end
-    else
-        _G.espActive = false
-    end
-end)
-
--- godmode
-segment1:addToggle("Animatronics Don't Affect you", false, function(bool)
-    game:GetService("Players").ReflectedReality.PlayerGui.JumpscareGui.jumpscareScript.Disabled = bool
-end)
-
--- tp to office
-segment1:addButton("TP to office", function()
-    local player = game:GetService("Players").LocalPlayer
-
-    if night() == 1 then
-        player.Character.HumanoidRootPart.CFrame = CFrame.new(399.330139, 4.00000048, 7.83736849)
-    elseif night() == 2 then
-        player.Character.HumanoidRootPart.CFrame = CFrame.new(23.309967, 2.99999928, -24.9838963)
-    elseif night() == 3 then
-        player.Character.HumanoidRootPart.CFrame = CFrame.new(-268.407959, 4.42830229, -63.4402657)
-    elseif night() == 4 then
-        player.Character.HumanoidRootPart.CFrame = CFrame.new(107.655678, 2.4982717, -18.9428253)
-    end
-end)
-
--- fullbright
-segment1:addButton("Fullbright", function()
-    dofullbright()
-    Lighting.LightingChanged:Connect(dofullbright)
-end)
-
--- minigames
--- inf sprint
-_G.sprint = false
-
-segment2:addToggle("Infinite Sprint", false, function(bool)
-    local moveMent = game:GetService("Players").LocalPlayer.Character.playerMovementScript
-
-    if bool then
-        _G.sprint = true
-
-        for _, v in next, getgc() do
-            if type(v) == "function" and getfenv(v).script == moveMent then
-                if debug.getinfo(v).name == "startRun" then
-                    spawn(function()
-                        while _G.sprint do
-                            debug.setupvalue(v, 1, 100)
-                            wait(1)
-                        end
-                    end)
-                end
-            end
-        end
-    else
-        _G.sprint = false
-    end
-end)
-
-segment2:addButton("Lever ESP", function()
-    local levers = game:GetService("Workspace").Levers
-
-    for _, v in pairs(levers:GetDescendants()) do
-        if v:IsA("Part") and v.Name ~= "blackPart" and v.Name ~= "lightPart" and v.Parent.Name ~= "Lights" then
-            local adorn = Instance.new("BoxHandleAdornment", v)
-            adorn.Adornee = v
-            adorn.Color3 = Color3.new(0, 1, 0)
-            adorn.Transparency = 0.5
-            adorn.AlwaysOnTop = true
-            adorn.ZIndex = 2
-            adorn.Size = v.Size
         end
     end
-end)
-
--- misc
-segment4:addToggle("Auto wind Music Box (FNAF 2)", false, function(bool)
+ 
     spawn(function()
-        while bool do
-            game:GetService("ReplicatedStorage").RemoteEvents.MusicBoxWindUpEvent:FireServer(true)
-            wait(0.5)
+        while(wait())do
+            for _,k in pairs(game.Players:GetPlayers())do
+                if(k~=game:GetService("Players").LocalPlayer)then
+                    esp(k,(_G.UseTeamColor)and(k.TeamColor.Color)or((game:GetService("Players").LocalPlayer.TeamColor==k.TeamColor)and(_G.FriendColor)or(_G.EnemyColor)))
+                end
+            end
         end
     end)
-end)
-
-segment4:addToggle("Detect Nightmare Foxy (FNAF 4)", false, function(bool)
-    local animatronics = game:GetService("Workspace").Animatronics
-
-    if night() == 4 and animatronics:FindFirstChild("Foxy") then
-        local Fox = game:GetService("Workspace").Animatronics.Foxy.NightmareFoxy.Head.Eye
-        _G.Foxy = bool
-
-        local Disconnect
-        Disconnect = Fox:GetPropertyChangedSignal("Transparency"):Connect(function()
-            if _G.Foxy then
-                if Fox.Transparency == 0 then
-                    game:GetService("StarterGui"):SetCore("SendNotification", {
-                        Title = "Alert!",
-                        Text = "Nightmare Foxy has APPEARED!"
-                    })
-                else
-                    game:GetService("StarterGui"):SetCore("SendNotification", {
-                        Title = "Alert!",
-                        Text = "Nightmare Foxy has DISAPPEARED"
-                    })
+end);
+c:Button("Fullbright",function()
+    if not _G.FullBrightExecuted then
+        _G.FullBrightEnabled=false
+        _G.NormalLightingSettings={
+            Brightness=game:GetService("Lighting").Brightness,
+            ClockTime=game:GetService("Lighting").ClockTime,
+            FogEnd=game:GetService("Lighting").FogEnd,
+            GlobalShadows=game:GetService("Lighting").GlobalShadows,
+            Ambient=game:GetService("Lighting").Ambient
+        }
+ 
+        game:GetService("Lighting"):GetPropertyChangedSignal("Brightness"):Connect(function()
+            if game:GetService("Lighting").Brightness~=1 and game:GetService("Lighting").Brightness~=_G.NormalLightingSettings.Brightness then
+                _G.NormalLightingSettings.Brightness=game:GetService("Lighting").Brightness
+                if not _G.FullBrightEnabled then
+                    repeat
+                        wait()
+                    until _G.FullBrightEnabled
                 end
-            else
-                Disconnect:Disconnect()
+                game:GetService("Lighting").Brightness=1
+            end
+        end)
+ 
+        game:GetService("Lighting"):GetPropertyChangedSignal("ClockTime"):Connect(function()
+            if game:GetService("Lighting").ClockTime~=12 and game:GetService("Lighting").ClockTime~=_G.NormalLightingSettings.ClockTime then
+                _G.NormalLightingSettings.ClockTime=game:GetService("Lighting").ClockTime
+                if not _G.FullBrightEnabled then
+                    repeat
+                        wait()
+                    until _G.FullBrightEnabled
+                end
+                game:GetService("Lighting").ClockTime=12
+            end
+        end)
+ 
+        game:GetService("Lighting"):GetPropertyChangedSignal("FogEnd"):Connect(function()
+            if game:GetService("Lighting").FogEnd~=786543 and game:GetService("Lighting").FogEnd~=_G.NormalLightingSettings.FogEnd then
+                _G.NormalLightingSettings.FogEnd=game:GetService("Lighting").FogEnd
+                if not _G.FullBrightEnabled then
+                    repeat
+                        wait()
+                    until _G.FullBrightEnabled
+                end
+                game:GetService("Lighting").FogEnd=786543
+            end
+        end)
+ 
+        game:GetService("Lighting"):GetPropertyChangedSignal("GlobalShadows"):Connect(function()
+            if game:GetService("Lighting").GlobalShadows~=false and game:GetService("Lighting").GlobalShadows~=_G.NormalLightingSettings.GlobalShadows then
+                _G.NormalLightingSettings.GlobalShadows=game:GetService("Lighting").GlobalShadows
+                if not _G.FullBrightEnabled then
+                    repeat
+                        wait()
+                    until _G.FullBrightEnabled
+                end
+                game:GetService("Lighting").GlobalShadows=false
+            end
+        end)
+ 
+        game:GetService("Lighting"):GetPropertyChangedSignal("Ambient"):Connect(function()
+            if game:GetService("Lighting").Ambient~=Color3.fromRGB(178,178,178) and game:GetService("Lighting").Ambient~=_G.NormalLightingSettings.Ambient then
+                _G.NormalLightingSettings.Ambient=game:GetService("Lighting").Ambient
+                if not _G.FullBrightEnabled then
+                    repeat
+                        wait()
+                    until _G.FullBrightEnabled
+                end
+                game:GetService("Lighting").Ambient=Color3.fromRGB(178,178,178)
+            end
+        end)
+ 
+        game:GetService("Lighting").Brightness=1
+        game:GetService("Lighting").ClockTime=12
+        game:GetService("Lighting").FogEnd=786543
+        game:GetService("Lighting").GlobalShadows=false
+        game:GetService("Lighting").Ambient=Color3.fromRGB(178,178,178)
+ 
+        local LatestValue=true
+        spawn(function()
+            repeat
+                wait()
+            until _G.FullBrightEnabled
+            while wait() do
+                if _G.FullBrightEnabled~=LatestValue then
+                    if not _G.FullBrightEnabled then
+                        game:GetService("Lighting").Brightness=_G.NormalLightingSettings.Brightness
+                        game:GetService("Lighting").ClockTime=_G.NormalLightingSettings.ClockTime
+                        game:GetService("Lighting").FogEnd=_G.NormalLightingSettings.FogEnd
+                        game:GetService("Lighting").GlobalShadows=_G.NormalLightingSettings.GlobalShadows
+                        game:GetService("Lighting").Ambient=_G.NormalLightingSettings.Ambient
+                    else
+                        game:GetService("Lighting").Brightness=1
+                        game:GetService("Lighting").ClockTime=12
+                        game:GetService("Lighting").FogEnd=786543
+                        game:GetService("Lighting").GlobalShadows=false
+                        game:GetService("Lighting").Ambient=Color3.fromRGB(178, 178, 178)
+                    end
+                    LatestValue=not LatestValue
+                end
             end
         end)
     end
-end)
-
--- settings
-segment3:addKeybind("Toggle GUI", Enum.KeyCode.RightShift, function()
-    menu:toggle()
-end)
-
-segment3:addButton("Credits", function()
-    game:GetService("StarterGui"):SetCore("SendNotification", {
-        Title = "Credits",
-        Text = "Script: Asphro\nUI: Venyx"
-    })
-end)
-
-menu:SelectPage(menu.pages[1], true)
+ 
+    _G.FullBrightExecuted=true
+    _G.FullBrightEnabled=not _G.FullBrightEnabled
+end);
+ 
+local animatronicCloseDoor=(getgenv().AnimatronicCloseDoorDebs)or({});
+getgenv().AnimatronicCloseDoorDebs=animatronicCloseDoor;
+while(getgenv().Inst==cinst)and(game:GetService("RunService").Stepped:Wait())do 
+    for _,a in pairs(game:GetService("Workspace").WorkspaceUtilities:GetChildren())do 
+        if(getgenv().KillPower==true)and((a.Name=="FrontBlastDoor")or(a.Name=="RightBlastDoor"))then 
+            game:GetService("ReplicatedStorage").Remotes.Client:FireServer("Blast Door Interact",a);
+        elseif(getgenv().AutoCloseCurtain==true)and(a.Name=="Curtains")and(a:FindFirstChild("Properties")~=nil)and(a:FindFirstChild("Properties"):FindFirstChild("Status")~=nil)and(a:FindFirstChild("Properties"):FindFirstChild("Status").Value==false)then 
+            game:GetService("ReplicatedStorage").Remotes.Client:FireServer("Close Curtain",a);
+        elseif(getgenv().AutoFixGenerators==true)and(a.Name=="Generator")and(a:FindFirstChild("Properties")~=nil)and(a:FindFirstChild("Properties"):FindFirstChild("Shutdown")~=nil)and(a:FindFirstChild("Properties"):FindFirstChild("Shutdown").Value==true)then 
+            game:GetService("ReplicatedStorage").Remotes.Client:FireServer("Restart Gen",a);
+        elseif(getgenv().AutoPickupPhone==true)and(a.Name=="Telephone")and(a:FindFirstChild("Properties")~=nil)and(a:FindFirstChild("Properties"):FindFirstChild("Status")~=nil)and(a:FindFirstChild("Properties"):FindFirstChild("Status").Value==true)then 
+            game:GetService("ReplicatedStorage").Remotes.Client:FireServer("Pickup Telephone",a);
+            wait(0.8);
+            game:GetService("ReplicatedStorage").Remotes.Client:FireServer("End Call",a);
+        elseif(getgenv().AutoFixVentilation==true)and(a.Name=="VentsLever")and(a:FindFirstChild("Properties")~=nil)and(a:FindFirstChild("Properties"):FindFirstChild("Shutdown")~=nil)and(a:FindFirstChild("Properties"):FindFirstChild("Shutdown").Value==true)then 
+            game:GetService("ReplicatedStorage").Remotes.Client:FireServer("Restart Ventilation",a);
+        end;
+    end;
+    if(getgenv().AutoCloseDoor==true)then 
+        for _,animatronic in pairs(game:GetService("Workspace"):GetChildren())do 
+            if((animatronic.Name=="Freddy")or(animatronic.Name=="Bonnie")or(animatronic.Name=="Chica")or(animatronic.Name=="Foxy"))and(animatronic:IsA("Model"))then 
+                local root=(animatronic.PrimaryPart)or(animatronic:FindFirstChild("HumanoidRootPart"));
+                if(root~=nil)then 
+                    for _,a in pairs(game:GetService("Workspace").WorkspaceUtilities:GetChildren())do 
+                        if(a:FindFirstChild("BlastDoor")~=nil)and(shared.DEBUGMODE==true)then 
+                            print(animatronic,(root.Position-a:FindFirstChild("BlastDoor").Position).Magnitude);
+                        end;
+                        if((a.Name=="FrontBlastDoor")or(a.Name=="RightBlastDoor"))and(animatronicCloseDoor[a.Name]==animatronic)and(a:FindFirstChild("Properties")~=nil)and(a:FindFirstChild("Properties"):FindFirstChild("Status")~=nil)and(a:FindFirstChild("Properties"):FindFirstChild("Status").Value==false)then 
+                            animatronicCloseDoor[a.Name]=nil;
+                        end;
+                        if(getgenv().AutoCloseDoor==true)and((a.Name=="FrontBlastDoor")or(a.Name=="RightBlastDoor"))and(animatronicCloseDoor[a.Name]==nil)and(a:FindFirstChild("Properties")~=nil)and(a:FindFirstChild("Properties"):FindFirstChild("Status")~=nil)and(a:FindFirstChild("Properties"):FindFirstChild("Status").Value==false)and(a:FindFirstChild("BlastDoor")~=nil)and(((root.Position+(root.Velocity/2))-a:FindFirstChild("BlastDoor").Position).Magnitude<=17)then 
+                            game:GetService("ReplicatedStorage").Remotes.Client:FireServer("Blast Door Interact",a);
+                            animatronicCloseDoor[a.Name]=animatronic;
+                            wait(0.5);
+                        elseif(getgenv().AutoCloseDoor==true)and((a.Name=="FrontBlastDoor")or(a.Name=="RightBlastDoor"))and(animatronicCloseDoor[a.Name]==animatronic)and(a:FindFirstChild("Properties")~=nil)and(a:FindFirstChild("Properties"):FindFirstChild("Status")~=nil)and(a:FindFirstChild("Properties"):FindFirstChild("Status").Value==true)and(a:FindFirstChild("BlastDoor")~=nil)and(((root.Position+(root.Velocity/2))-a:FindFirstChild("BlastDoor").Position).Magnitude>17)then 
+                            game:GetService("ReplicatedStorage").Remotes.Client:FireServer("Blast Door Interact",a);
+                            animatronicCloseDoor[a.Name]=nil;
+                            wait(0.5);
+                        end;
+                    end;
+                end;
+            end;
+        end;
+    end;
+end;
